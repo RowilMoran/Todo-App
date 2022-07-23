@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import ToDoForm from "./ToDoForm";
 import ToDoTable from "./ToDoTable";
-
-let todoInit = JSON.parse(localStorage.getItem("db")) || [];
+import { useLocalStorage } from "../hooks/useLocalStorage";
+//let todoInit = JSON.parse(localStorage.getItem("db")) || [];
 
 const ToDoApp = () => {
-  const [db, setDb] = useState(todoInit);
+  const [db, setDb] = useLocalStorage("db", []);
 
-  
   useEffect(() => {
-    localStorage.setItem('db', JSON.stringify(db));
+    localStorage.setItem("db", JSON.stringify(db));
   }, [db]);
 
   const createData = (data) => {
@@ -17,19 +16,19 @@ const ToDoApp = () => {
     data.id = Date.now();
     //joing what is coming from data (toDoForm) to the db variable
     setDb([...db, data]);
-    localStorage.setItem("db", JSON.stringify([...db, data]));
+   // localStorage.setItem("db", JSON.stringify([...db, data]));
   };
 
   const updateData = (data) => {
     const newData = db.map((el) => (el.id === data.id ? data : el));
     setDb(newData);
-    localStorage.setItem("db", JSON.stringify(newData));
+    //localStorage.setItem("db", JSON.stringify(newData));
   };
 
   const deleteData = (id) => {
     const restData = db.filter((el) => el.id !== id);
     setDb(restData);
-    localStorage.setItem("db", JSON.stringify(restData));
+    //localStorage.setItem("db", JSON.stringify(restData));
   };
   return (
     <div>
